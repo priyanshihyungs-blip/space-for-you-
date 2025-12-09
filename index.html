@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Magic shop- your safe space </title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Playfair+Display:ital@1&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: whitesmoke;
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            font-family: 'poppins', Arial, Helvetica, serif;
+            text-align: center;
+            padding: 60px;
+        }
+
+        @keyframes :playing {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            color: #daff69;
+            font-style: italic;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 40px;
+        }
+
+        h2 {
+            color: #e1ed64;
+            font-style: italic;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 25px;
+        }
+
+        hr {
+            border: 2px solid #ff69be;
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        strong {
+            color: #ff4500;
+            font-size: 20px;
+        }
+
+        p {
+            color: #555;
+            font-family: inherit, serif;
+            font-style: heat;
+            font-size: 20px;
+        }
+
+        button {
+            background-color: #e0ff47;
+            color: #ffffff;
+            font-size: 17px;
+            padding: 25px 50px;
+            border: none;
+            border-radius: 35px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #141cff;
+        }
+
+        button:nth-child(7) {
+            background-color: #e0ff47;
+            font-family: 'Courier New', Courier, monospace;
+            font-style: italic;
+        }
+
+        button:nth-child(9) {
+            background-color: #e0ff47;
+            font-family: 'Courier New', Courier, monospace;
+            font-style: italic;
+        }
+
+        button:nth-child(11) {
+            background-color: #e0ff47;
+            font-family: 'Courier New', Courier, monospace;
+            font-style: italic;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 7;
+            }
+        }
+
+        h1 {
+            color: #a869ff;
+            font-size: 40px;
+            font-family: monospace, fantasy;
+            font-style: voice;
+            animation: fadeIn 7s;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            margin: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+
+
+        input {
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ff69be;
+            border-radius: 25px;
+            text-align: center;
+        }
+
+        #greeting {
+            color: #ff69be;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #moodResponse {
+            color: #ffd700;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        #quoteDisplay {
+            color: rgb(110, 63, 205);
+            font-size: 26px;
+            font-style: oblique;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 20px;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #moodResponse,
+        #quoteDisplay,
+        #greeting {
+            animation: slideIn 0.7S ease-out;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 15% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button {
+            margin: 10px;
+            min-width: 150px;
+        }
+
+        canvas#dreamSky {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #0b0f26, #1a103f, #281a55);
+        }
+    </style>
+    <script>
+        var quotes = [
+            "Everything Goes -Namjoon",
+            "You are the main character of your life - Jungkook",
+            "Everyone there is hope in no matter what you are going through -Jhope",
+            "The only way to do great work is to love what you do. –Steve Jobs",
+            "You are more than enough to be loved - Yoongi",
+            "You are pretty even when you gain weight -Jimin",
+            "What if he flings it? then he flings it -Jin",
+            "Effort makes you -Jungkook",
+            "Please use me use BTS to love yourself -Namjoon",
+            "Everyone good job hanging in there -Jimin",
+            "You never walk alone -Jimin",
+            "Everything will be okay -Yoongi",
+            "ARMY No matter what be always happy okay? -Jungkook",
+            "You would better get out of your imagination if it's not good in there -Taehyung",
+            "When you are facing hard times think of the people you love and the people who love you, you will get strength from them -Jhope",
+            "Don't give up on yourself - Jimin",
+            "Eating alone doesnt mean you are an outcast -Namjoon",
+            "Having no friends or being alone doesnt mean you are weird -Namjoon",
+            "Since we are born alone we need some time alone -Namjoon",
+            "Love like you have never loved before i will do that for you i do love you -Taehyung",
+            "I hope you move on from relationships that aren't equal you deserve to be loved too -Jungkook",
+            "Don't be sad if no one came to console you how about trying to do less and getting rest more -Taehyung",
+            "You should have a habit of complementing yourself -Seokjin",
+            "I hope the days of genuine laughter comes soon -Jimin",
+            "Giving up on something you love takes a lot of courage so if you gave up on your dreams means you are courageous it must not have been easy -Yoongi",
+            "Today's lesson: You can do it -Jimin",
+            "Guys, be happy -Jungkook",
+            "Hate is poison love yourself and love everyone around you be kind to others -Yoongi",
+            "I won't go anywhere i will always be here for you -Jungkook",
+            "I am always here rooting for you eveeryday -Yoongi",
+            "The star of my life is ARMY -Jungkook",
+            "There is nothing worse than suppressing tears you should cry whenever you want to -Jimin",
+            "I have ARMY in life and it's perfect -Taehyung",
+            "Thabkyou for staying with us despite the distance and language barriers -Namjoon",
+            "Please lean on me and have a rest have sometimes -Yoongi",
+            "There are lots of things that happen beyond our control to us let us forgive ourselves and move on -Jhope"
+
+        ];
+
+        var usedQuotes = [];
+
+        function showQuote() {
+            if (usedQuotes.length === quotes.length) {
+                usedQuotes = [];
+            }
+            var availableQuotes = quotes.filter(function (q, index) {
+                return !usedQuotes.includes(index);
+            });
+            var randomNum = Math.floor(Math.random() * availableQuotes.length);
+            var quote = availableQuotes[randomNum];
+            var originalIndex = quotes.indexOf(quote);
+            usedQuotes.push(originalIndex);
+            document.getElementById("quoteDisplay").innerHTML = quote;
+            if (usedQuotes.length === 1) {
+                setTimeout(function () {
+                    alert("✨ Want more inspiration? Click again for another quote!");
+                }, 2000);
+                document.getElementById("quoteDisplay").scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Update slider values
+        ['happy', 'grateful', 'tired', 'anxious', 'lonely'].forEach(function (emotion) {
+            document.getElementById(emotion).oninput = function () {
+                document.getElementById(emotion + 'Val').innerHTML = this.value + '%';
+            };
+        });
+
+        window.onload = function () {
+            var savedName = localStorage.getItem("userName");
+            if (savedName) {
+                document.getElementById("userName").value = savedName;
+                document.getElementById("greeting").innerHTML = "Hello " + savedName + "! 💙";
+            }
+            var visits = localStorage.getItem("visitCount") || 0;
+            visits++;
+            localStorage.setItem("visitCount", visits);
+            document.getElementById("visitorCount").innerHTML = "✨ You've visited " + visits + " times";
+            loadMessages();
+
+            // ADD THIS FOR SLIDERS:
+            ['happy', 'grateful', 'tired', 'anxious', 'lonely'].forEach(function (emotion) {
+                var slider = document.getElementById(emotion);
+                if (slider) {
+                    slider.oninput = function () {
+                        document.getElementById(emotion + 'Val').innerHTML = this.value + '%';
+                    };
+                }
+            });
+        };
+        function updateSlider(emotion) {
+            var value = document.getElementById(emotion + 'Slider').value;
+            document.getElementById(emotion + 'Percent').innerHTML = value + '%';
+        }
+
+        function analyzeDayNow() {
+            var happy = parseInt(document.getElementById('happySlider').value);
+            var grateful = parseInt(document.getElementById('gratefulSlider').value);
+            var tired = parseInt(document.getElementById('tiredSlider').value);
+            var anxious = parseInt(document.getElementById('anxiousSlider').value);
+            var lonely = parseInt(document.getElementById('lonelySlider').value);
+
+            var response = "";
+
+            if (happy > 70 && grateful > 70) {
+                response = "Wow! Sounds like you had an amazing day! Keep that beautiful energy! 🌟";
+            } else if (tired > 70) {
+                response = "You sound exhausted. Please rest. Your body needs it. You've done enough today. 🌙";
+            } else if (anxious > 70) {
+                response = "I see your anxiety is high. Take deep breaths. This feeling will pass. You're safe. 💙";
+            } else if (lonely > 70) {
+                response = "Feeling lonely is hard. But you're here, and that matters. You're not as alone as you feel. 🤍";
+            } else if (happy < 30 && grateful < 30) {
+                response = "Rough day, huh? It's okay. Not every day has to be good. Tomorrow is a new chance. 💜";
+            } else {
+                response = "Thank you for sharing. Every day has its ups and downs. You're doing your best. 💙";
+            }
+
+            showModal(response);
+        }
+        function postMessage() {
+            var msg = document.getElementById("messageInput").value.trim();
+            if (msg === "") {
+                showModal("Please write something! 💙");
+                return;
+            }
+
+            var messages = JSON.parse(localStorage.getItem("messageWall") || "[]");
+            messages.push({ text: msg, date: new Date().toLocaleDateString() });
+            localStorage.setItem("messageWall", JSON.stringify(messages));
+
+            document.getElementById("messageInput").value = "";
+            showModal("Posted! Thankyou for being here💜");
+            loadMessages();
+        }
+
+        function loadMessages() {
+            var messages = JSON.parse(localStorage.getItem("messageWall") || "[]");
+            var html = "";
+
+            messages.slice(-10).reverse().forEach(function (m) {
+                html += "<div style='background: white; padding: 15px; margin: 10px 0; border-radius: 10px; border-left: 4px solid #a869ff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);'>";
+                html += "<p style='font-size: 15px; color: #333; font-style: italic;'>\"" + m.text + "\"</p>";
+                html += "<small style='color: #aaa;'>" + m.date + "</small>";
+                html += "</div>";
+            });
+
+            if (html === "") html = "<p style='color: #888; text-align: center;'>No messages yet. Be the first!</p>";
+
+            document.getElementById("messageWall").innerHTML = html;
+        }
+
+        // Load messages when page loads
+        window.onload = function () {
+            var savedName = localStorage.getItem("userName");
+            if (savedName) {
+                document.getElementById("userName").value = savedName;
+                document.getElementById("greeting").innerHTML = "Hello " + savedName + "! 💙";
+            }
+            var visits = localStorage.getItem("visitCount") || 0;
+            visits++;
+            localStorage.setItem("visitCount", visits);
+            document.getElementById("visitorCount").innerHTML = " You've visited " + visits + " times";
+            loadMessages();
+        };
+
+        function saveName() {
+            var name = document.getElementById("userName").value;
+            if (name) {
+                localStorage.setItem("userName", name);
+                document.getElementById("greeting").innerHTML = "Hi " + name + "! 💙 Thankyou for finding me!";
+            }
+        }
+
+        function changeColor(color) {
+            document.body.style.color = color;
+            var paragraphs = document.getElementsByTagName('p');
+            for (var i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].style.color = color;
+            }
+            document.getElementsByTagName('h1')[0].style.color = color;
+            document.getElementsByTagName('h2')[0].style.color = color;
+        }
+        window.onload = function () {
+            var savedName = localStorage.getItem("userName");
+            if (savedName) {
+                document.getElementById("userName").value = savedName;
+                document.getElementById("greeting").innerHTML = "Hello " + savedName + "! 💙 So glad you're here!";
+            }
+        }
+        function showModal(message) {
+            document.getElementById("modalText").innerHTML = message;
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+        function toggleDarkMode() {
+            var body = document.body;
+            if (body.style.background === "whitesmoke" || body.style.background === "") {
+                body.style.background = "#1a1a2e";
+                body.style.color = "#eee";
+                document.querySelectorAll('h1, h2, p').forEach(function (el) {
+                    el.style.color = "#eee";
+                });
+            } else {
+                body.style.background = "whitesmoke";
+                body.style.color = "#555";
+            }
+        }
+        function toggleMenu() {
+            var menu = document.getElementById("menuBox");
+            menu.style.display = menu.style.display === "none" ? "block" : "none";
+        }
+        function submitFeedback() {
+            var feedback = document.getElementById("feedbackText").value.trim();
+            if (feedback === "") {
+                showModal("Please write something! 💙");
+                return;
+            }
+            var all = localStorage.getItem("feedbacks") || "[]";
+            var list = JSON.parse(all);
+            list.push({ msg: feedback, date: new Date().toLocaleDateString() });
+            localStorage.setItem("feedbacks", JSON.stringify(list));
+            document.getElementById("feedbackText").value = "";
+            showModal("Thank you! Your voice matters 💜");
+        }
+        window.onload = function () {
+            var savedName = localStorage.getItem("userName");
+            if (savedName) {
+                document.getElementById("userName").value = savedName;
+                document.getElementById("greeting").innerHTML = "Hello " + savedName + "! 💙";
+            }
+
+            var visits = localStorage.getItem("visitCount") || 0;
+            visits++;
+            localStorage.setItem("visitCount", visits);
+            document.getElementById("visitorCount").innerHTML = "✨ You've visited " + visits + " times";
+        }
+
+
+
+    </script>
+</head>
+
+<div onclick="toggleMenu()" style="position: fixed; top: 20px; left: 20px; cursor: pointer; font-size: 30px;">☰
+</div>
+<div id="menuBox"
+    style="display: none; position: fixed; top: 60px; left: 20px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+    <p onclick="window.location.href='#feedback'">Feedback</p>
+    <p onclick="alert('Terms coming soon!')">Terms</p>
+    <p onclick="alert('Help center coming soon!')">Help</p>
+</div>
+<h1>
+    <div style="text-align: center; margin: 30px 0;">
+        <!-- Logo circle with planet -->
+        <div
+            style="width: 120px; height: 120px; margin: 0 auto 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(102,126,234,0.4); position: relative;">
+            <div
+                style="width: 80px; height: 80px; background: linear-gradient(45deg, #ffd89b, #19547b); border-radius: 50%; box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);">
+            </div>
+            <!-- Ring around planet -->
+            <div
+                style="position: absolute; width: 140px; height: 40px; border: 3px solid rgba(255,255,255,0.4); border-radius: 50%; transform: rotateX(75deg);">
+            </div>
+            <!-- Small star -->
+            <div style="position: absolute; top: 10px; right: 15px; color: white; font-size: 20px;"></div>
+        </div>
+
+        <!-- Name -->
+        <h1
+            style="font-family: 'Playfair Display', serif; font-size: 45px; color: #a869ff; letter-spacing: 2px; margin: 10px 0; text-shadow: 2px 2px 10px rgba(138,105,255,0.3);">
+            Space For You</h1>
+
+        <!-- Tagline -->
+        <p style="font-size: 16px; color: #888; font-style: italic; margin-top: 10px;">💜 You never walk alone 💜</p>
+    </div>
+</h1>
+<p id="visitorCount" style="font-size: 14px; color: #888;"></p>
+<canvas id="dreamSky"></canvas>
+
+
+<div style="margin-bottom: 30px;">
+    <input type="text" id="userName" placeholder="what should i call you?">
+    <br><br>
+    <button onclick="saveName()">Enter</button>
+</div>
+<div style="position: fixed; top: 20px; right: 20px; text-align: center;">
+    <p style="font-size: 11px; color: #888; margin-bottom: 5px;">For better experience ✨</p>
+    <button onclick="toggleDarkMode()" style="padding: 8px 15px; font-size: 14px;">🌙 Dark Mode</button>
+</div>
+<br>
+<p id="greeting"></p>
+<hr>
+
+<label>Pick a vibe:</label>
+<button onclick="changeColor('#ff69be')">💖 Pink</button>
+<button onclick="changeColor('#87ceeb')">💙 Blue</button>
+<button onclick="changeColor('#90ee90')">💚 Green</button>
+<br><br>
+<!-- Two column layout that works on desktop, stacks nicely on mobile -->
+<div style="max-width: 1000px; margin: 50px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+
+    <!-- LEFT COLUMN: Day Rating Sliders -->
+    <div style="background: rgba(138,105,255,0.1); padding: 25px; border-radius: 20px;">
+        <h3 style="color: #a869ff; margin-bottom: 20px;">How was your day today?</h3>
+
+        <div style="margin: 15px 0;">
+            <label style="font-size: 14px; color: #666; display: block; margin-bottom: 5px;">😊 Happy</label>
+            <input type="range" id="happySlider" min="0" max="100" value="50" oninput="updateSlider('happy')"
+                style="width: 100%;">
+            <span id="happyPercent" style="font-size: 12px; color: #888;">50%</span>
+        </div>
+
+        <div style="margin: 15px 0;">
+            <label style="font-size: 14px; color: #666; display: block; margin-bottom: 5px;">🙏 Grateful</label>
+            <input type="range" id="gratefulSlider" min="0" max="100" value="50" oninput="updateSlider('grateful')"
+                style="width: 100%;">
+            <span id="gratefulPercent" style="font-size: 12px; color: #888;">50%</span>
+        </div>
+
+        <div style="margin: 15px 0;">
+            <label style="font-size: 14px; color: #666; display: block; margin-bottom: 5px;">😴 Tired</label>
+            <input type="range" id="tiredSlider" min="0" max="100" value="50" oninput="updateSlider('tired')"
+                style="width: 100%;">
+            <span id="tiredPercent" style="font-size: 12px; color: #888;">50%</span>
+        </div>
+
+        <div style="margin: 15px 0;">
+            <label style="font-size: 14px; color: #666; display: block; margin-bottom: 5px;">😰 Anxious</label>
+            <input type="range" id="anxiousSlider" min="0" max="100" value="50" oninput="updateSlider('anxious')"
+                style="width: 100%;">
+            <span id="anxiousPercent" style="font-size: 12px; color: #888;">50%</span>
+        </div>
+
+        <div style="margin: 15px 0;">
+            <label style="font-size: 14px; color: #666; display: block; margin-bottom: 5px;">💔 Lonely</label>
+            <input type="range" id="lonelySlider" min="0" max="100" value="50" oninput="updateSlider('lonely')"
+                style="width: 100%;">
+            <span id="lonelyPercent" style="font-size: 12px; color: #888;">50%</span>
+        </div>
+
+        <button onclick="analyzeDayNow()" style="margin-top: 15px;">Submit</button>
+    </div>
+
+    <!-- RIGHT COLUMN: Quote of the Day -->
+    <div
+        style="background: rgba(138,105,255,0.1); padding: 25px; border-radius: 20px; display: flex; flex-direction: column; justify-content: center;">
+        <h3 style="color: #a869ff; margin-bottom: 20px;">✨Click for the Quote of the Day</h3>
+        <button onclick="showQuote()" style="margin-bottom: 20px;"> See Quote</button>
+        <p id="quoteDisplay" style="font-size: 18px; color: #6e3fcd; font-style: italic; min-height: 80px;"></p>
+    </div>
+
+</div>
+
+<!-- Message Wall - Full width below -->
+<div
+    style="max-width: 1000px; margin: 30px auto; background: rgba(138,105,255,0.1); padding: 30px; border-radius: 20px;">
+    <h3 style="color: #a869ff;">💌 Magic Shop</h3>
+    <p style="font-size: 14px; color: #666;"> Welcome Home honey.
+    </p>
+
+    <textarea id="messageInput" placeholder="You are safe here write your heart out..."
+        style="width: 95%; height: 80px; padding: 12px; border-radius: 8px; border: 2px solid #a869ff; font-family: Arial; font-size: 14px; resize: none; margin: 15px 0;"></textarea>
+    <br>
+    <button onclick="postMessage()">Post to Magic Shop</button>
+
+    <div id="messageWall" style="margin-top: 30px; max-height: 400px; overflow-y: auto;"></div>
+</div>
+<p id="quoteDisplay"></p>
+<div
+    style="max-width: 600px; margin: 50px auto; padding: 30px; background: rgba(138,105,255,0.1); border-radius: 20px;">
+    <h3 style="color: #a869ff;">💌 Message Wall</h3>
+    <p style="font-size: 14px; color: #666;">Drop what you needed to hear today. Your words might comfort someone else.
+    </p>
+
+    <textarea id="messageInput" placeholder="Did i tell you today that i love you?"
+        style="width: 90%; height: 80px; padding: 12px; border-radius: 8px; border: 2px solid #a869ff; font-family: Arial; font-size: 14px; resize: none; margin: 15px 0;"></textarea>
+    <br>
+    <button onclick="postMessage()">Post to Message Wall</button>
+
+    <div id="messageWall" style="margin-top: 30px; max-height: 400px; overflow-y: auto;"></div>
+</div>
+<div
+    style=" margin: 100px auto 30px; max-width: 400px; background: rgba(138,105,255,0.1); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px);">
+    <h3 style="color: #a869ff; margin-bottom: 15px;">💬 Feedback</h3>
+    <textarea id="feedbackText" placeholder="Help us improve better..."
+        style="width: 90%; height: 80px; padding: 12px; border-radius: 8px; border: 2px solid #a869ff; font-family: Arial; font-size: 14px; resize: none;"></textarea>
+    <br><br>
+    <button onclick="submitFeedback()">Submit</button>
+</div>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <p id="modalText"></p>
+    </div>
+
+</div>
+
+<footer
+    style="margin-top: 80px; padding: 30px 20px; background: rgba(0,0,0,0.05); border-top: 1px solid rgba(138,105,255,0.3);">
+    <div style="max-width: 800px; margin: 0 auto;">
+        <p style="font-size: 18px; font-weight: 600; color: #a869ff; margin-bottom: 15px;">Space For You</p>
+        <p style="font-size: 14px; color: #666; margin-bottom: 20px;">A safe space for comfort, hope, and healing 💜
+        </p>
+
+        <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 20px;">
+            <a href="#" onclick="showModal('Privacy Policy coming soon!'); return false;"
+                style="color: #888; font-size: 13px; text-decoration: none;">Privacy Policy</a>
+            <a href="#" onclick="showModal('Terms coming soon!'); return false;"
+                style="color: #888; font-size: 13px; text-decoration: none;">Terms of Service</a>
+            <a href="#" onclick="showModal('Contact: spaceforyou@email.com'); return false;"
+                style="color: #888; font-size: 13px; text-decoration: none;">Contact</a>
+        </div>
+
+        <p style="font-size: 12px; color: #aaa;">© 2026 Space For You | Made with 💜 by Jahanvi</p>
+        <p style="font-size: 11px; color: #bbb; margin-top: 10px;">Non-profit initiative to spread comfort</p>
+    </div>
+</footer>
+
+<script>
+    const canvas = document.getElementById("dreamSky");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const stars = [];
+
+    function createStars(num) {
+        for (let i = 0; i < num; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.4 + 0.4,
+                opacity: Math.random() * 0.6 + 0.2,
+                twinkleSpeed: Math.random() * 0.02 + 0.005,
+                glow: Math.random() * 8 + 4,
+                dx: (Math.random() - 0.5) * 0.08,
+                dy: (Math.random() - 0.5) * 0.08
+            });
+        }
+    }
+
+    function drawStars() {
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach(star => {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 245, 255, ${star.opacity})`;
+            ctx.shadowBlur = star.glow;
+            ctx.shadowColor = "#f0e6ff";
+            ctx.fill();
+
+            star.opacity += star.twinkleSpeed;
+            if (star.opacity > 0.8 || star.opacity < 0.2) star.twinkleSpeed *= -1;
+
+            star.x += star.dx;
+            star.y += star.dy;
+
+            if (star.x < 0) star.x = canvas.width;
+            if (star.x > canvas.width) star.x = 0;
+            if (star.y < 0) star.y = canvas.height;
+            if (star.y > canvas.height) star.y = 0;
+        });
+
+        requestAnimationFrame(drawStars);
+    }
+
+
+
+    createStars(180);
+    drawStars();
+    requestAnimationFrame(drawStars);
+
+    // --- Shooting Stars ---
+    const shootingStars = [];
+
+    function createShootingStar() {
+        const star = {
+            x: Math.random() * canvas.width,
+            y: Math.random() * (canvas.height / 2),
+            length: Math.random() * 300 + 100,
+            speed: Math.random() * 5 + 3,
+            opacity: 1
+        };
+        shootingStars.push(star);
+    }
+
+    function drawShootingStars() {
+        shootingStars.forEach((star, index) => {
+            ctx.beginPath();
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(star.x - star.length, star.y - star.length * 0.3);
+
+            ctx.strokeStyle = `rgba(255, 255, 255, ${star.opacity})`;
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = "#ffffff";
+            ctx.stroke();
+
+            // move the star
+            star.x += star.speed;
+            star.y += star.speed * 0.3;
+
+            // fade
+            star.opacity -= 0.01;
+
+            if (star.opacity <= 0) shootingStars.splice(index, 1);
+        });
+    }
+
+    // generate one every few seconds
+    setInterval(createShootingStar, 4000);
+    drawShootingStars();
+    requestAnimationFrame(drawStars);
+
+</script>
+</div>
+
+
+
+
+</body>
+
+</html>
