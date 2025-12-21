@@ -232,6 +232,18 @@
         body {
             background: linear-gradient(to bottom, #0b0f26, #1a103f, #281a55);
         }
+
+        @keyframes hugPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+        }
     </style>
     <script>
         var quotes = [
@@ -367,7 +379,7 @@
             localStorage.setItem("messageWall", JSON.stringify(messages));
 
             document.getElementById("messageInput").value = "";
-            showModal("Posted! Thankyou for being here💜");
+            showModal("Posted! Your reminder: You never walk alone💜");
             loadMessages();
         }
 
@@ -475,6 +487,50 @@
             localStorage.setItem("visitCount", visits);
             document.getElementById("visitorCount").innerHTML = "✨ You've visited " + visits + " times";
         }
+        // Reduce stars on mobile
+        var starCount = window.innerWidth < 768 ? 80 : 180;
+        createStars(starCount);
+        // MAGIC SHOP - Private (stored, not displayed)
+        function postToMagicShop() {
+            var msg = document.getElementById("magicShopInput").value.trim();
+            if (msg === "") {
+                showModal("Please write something! 💙");
+                return;
+            }
+
+            var private = JSON.parse(localStorage.getItem("magicShop") || "[]");
+            private.push({ text: msg, date: new Date().toLocaleDateString() });
+            localStorage.setItem("magicShop", JSON.stringify(private));
+
+            document.getElementById("magicShopInput").value = "";
+            showModal("Your feelings are safe in Magic Shop 💜");
+        }
+
+        // MESSAGE WALL - Public (displayed for all)
+        function postToMessageWall() {
+            var msg = document.getElementById("messageWallInput").value.trim();
+            if (msg === "") {
+                showModal("Please write something! 💙");
+                return;
+            }
+
+            var messages = JSON.parse(localStorage.getItem("messageWall") || "[]");
+            messages.push({ text: msg, date: new Date().toLocaleDateString() });
+            localStorage.setItem("messageWall", JSON.stringify(messages));
+
+            document.getElementById("messageWallInput").value = "";
+            showModal("Posted! Thank you for being here 💜");
+            loadMessages();
+        }
+        function giveHug() {
+            var hugDiv = document.getElementById("hugAnimation");
+            hugDiv.style.display = "block";
+
+            setTimeout(function () {
+                showModal("You are loved. You are worthy. You are enough. 🤍");
+                hugDiv.style.display = "none";
+            }, 3000);
+        }
 
 
 
@@ -491,27 +547,18 @@
 </div>
 <h1>
     <div style="text-align: center; margin: 30px 0;">
-        <!-- Logo circle with planet -->
+        <video autoplay loop muted playsinline style="max-width: 300px; margin-bottom: 20px;">
+            <source src="spaceforulogo.mp4" type="video/mp4">
+        </video>
+        <p style="font-size: 16px; color: #888; font-style: italic; margin-top: 10px;">💜 You never walk alone 💜</p>
         <div
-            style="width: 120px; height: 120px; margin: 0 auto 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(102,126,234,0.4); position: relative;">
-            <div
-                style="width: 80px; height: 80px; background: linear-gradient(45deg, #ffd89b, #19547b); border-radius: 50%; box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);">
-            </div>
-            <!-- Ring around planet -->
-            <div
-                style="position: absolute; width: 140px; height: 40px; border: 3px solid rgba(255,255,255,0.4); border-radius: 50%; transform: rotateX(75deg);">
-            </div>
-            <!-- Small star -->
-            <div style="position: absolute; top: 10px; right: 15px; color: white; font-size: 20px;"></div>
+            style="max-width: 700px; margin: 30px auto; padding: 20px; background: rgba(138,105,255,0.15); border-radius: 15px;">
+            <p style="font-size: 18px; color: #6e3fcd; line-height: 1.6;">
+                Your safe space. 💜
+            </p>
         </div>
 
-        <!-- Name -->
-        <h1
-            style="font-family: 'Playfair Display', serif; font-size: 45px; color: #a869ff; letter-spacing: 2px; margin: 10px 0; text-shadow: 2px 2px 10px rgba(138,105,255,0.3);">
-            Space For You</h1>
-
-        <!-- Tagline -->
-        <p style="font-size: 16px; color: #888; font-style: italic; margin-top: 10px;">💜 You never walk alone 💜</p>
+        <!-- Name and Title -->
     </div>
 </h1>
 <p id="visitorCount" style="font-size: 14px; color: #888;"></p>
@@ -521,7 +568,7 @@
 <div style="margin-bottom: 30px;">
     <input type="text" id="userName" placeholder="what should i call you?">
     <br><br>
-    <button onclick="saveName()">Enter</button>
+    <button onclick="saveName()">Enter the Space</button>
 </div>
 <div style="position: fixed; top: 20px; right: 20px; text-align: center;">
     <p style="font-size: 11px; color: #888; margin-bottom: 5px;">For better experience ✨</p>
@@ -531,11 +578,11 @@
 <p id="greeting"></p>
 <hr>
 
-<label>Pick a vibe:</label>
+<h3 style="color: #a869ff; margin-bottom: 15px;">Choose Your color</h3>
+<label>Pick a Color:</label>
 <button onclick="changeColor('#ff69be')">💖 Pink</button>
 <button onclick="changeColor('#87ceeb')">💙 Blue</button>
 <button onclick="changeColor('#90ee90')">💚 Green</button>
-<br><br>
 <!-- Two column layout that works on desktop, stacks nicely on mobile -->
 <div style="max-width: 1000px; margin: 50px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
 
@@ -580,6 +627,13 @@
 
         <button onclick="analyzeDayNow()" style="margin-top: 15px;">Submit</button>
     </div>
+    <div style="text-align: center; margin: 40px 0;">
+        <button onclick="giveHug()" style="font-size: 24px; padding: 20px 40px;">🤗 Need a Hug?</button>
+        <div id="hugAnimation" style="display: none; margin-top: 20px;">
+            <p style="font-size: 50px; animation: hugPulse 1s ease-in-out infinite;">🫂</p>
+            <p style="color: #a869ff; font-size: 20px; font-weight: 600;">Sending you the warmest hug 💜</p>
+        </div>
+    </div>
 
     <!-- RIGHT COLUMN: Quote of the Day -->
     <div
@@ -590,32 +644,29 @@
     </div>
 
 </div>
-
-<!-- Message Wall - Full width below -->
+<!-- MAGIC SHOP - Private feelings (only you see) -->
 <div
     style="max-width: 1000px; margin: 30px auto; background: rgba(138,105,255,0.1); padding: 30px; border-radius: 20px;">
     <h3 style="color: #a869ff;">💌 Magic Shop</h3>
-    <p style="font-size: 14px; color: #666;"> Welcome Home honey.
-    </p>
+    <p style="font-size: 14px; color: #666;">Welcome home honey. Write your heart out. Your emotions are safe here.</p>
 
-    <textarea id="messageInput" placeholder="You are safe here write your heart out..."
+    <textarea id="magicShopInput" placeholder="You are safe here, write your heart out..."
         style="width: 95%; height: 80px; padding: 12px; border-radius: 8px; border: 2px solid #a869ff; font-family: Arial; font-size: 14px; resize: none; margin: 15px 0;"></textarea>
     <br>
-    <button onclick="postMessage()">Post to Magic Shop</button>
-
-    <div id="messageWall" style="margin-top: 30px; max-height: 400px; overflow-y: auto;"></div>
+    <button onclick="postToMagicShop()">Send to Magic Shop</button>
 </div>
-<p id="quoteDisplay"></p>
+
+<!-- MESSAGE WALL - Public (everyone sees) -->
 <div
-    style="max-width: 600px; margin: 50px auto; padding: 30px; background: rgba(138,105,255,0.1); border-radius: 20px;">
+    style="max-width: 1000px; margin: 30px auto; background: rgba(138,105,255,0.1); padding: 30px; border-radius: 20px;">
     <h3 style="color: #a869ff;">💌 Message Wall</h3>
     <p style="font-size: 14px; color: #666;">Drop what you needed to hear today. Your words might comfort someone else.
     </p>
 
-    <textarea id="messageInput" placeholder="Did i tell you today that i love you?"
-        style="width: 90%; height: 80px; padding: 12px; border-radius: 8px; border: 2px solid #a869ff; font-family: Arial; font-size: 14px; resize: none; margin: 15px 0;"></textarea>
+    <textarea id="messageWallInput" placeholder="What did you need to hear today?"
+        style="width: 95%; height: 80px; padding: 12px; border-radius: 8px; border: 2px solid #a869ff; font-family: Arial; font-size: 14px; resize: none; margin: 15px 0;"></textarea>
     <br>
-    <button onclick="postMessage()">Post to Message Wall</button>
+    <button onclick="postToMessageWall()">Post to Message Wall</button>
 
     <div id="messageWall" style="margin-top: 30px; max-height: 400px; overflow-y: auto;"></div>
 </div>
@@ -647,12 +698,12 @@
                 style="color: #888; font-size: 13px; text-decoration: none;">Privacy Policy</a>
             <a href="#" onclick="showModal('Terms coming soon!'); return false;"
                 style="color: #888; font-size: 13px; text-decoration: none;">Terms of Service</a>
-            <a href="#" onclick="showModal('Contact: spaceforyou@email.com'); return false;"
+            <a href="#" onclick="showModal('Contact: jahanvipark@email.com'); return false;"
                 style="color: #888; font-size: 13px; text-decoration: none;">Contact</a>
         </div>
 
         <p style="font-size: 12px; color: #aaa;">© 2026 Space For You | Made with 💜 by Jahanvi</p>
-        <p style="font-size: 11px; color: #bbb; margin-top: 10px;">Non-profit initiative to spread comfort</p>
+        <p style="font-size: 11px; color: #bbb; margin-top: 10px;">Non-profit initiative to spread love</p>
     </div>
 </footer>
 
